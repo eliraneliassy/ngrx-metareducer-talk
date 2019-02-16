@@ -1,6 +1,6 @@
 import { AppEffects } from './store/app.effects';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, InjectionToken } from '@angular/core';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -23,9 +23,12 @@ import { logMetaReducer } from './store/log.metareducer';
 import { userPrefernceMetaReducer } from './store/user-preferences.metareducer';
 import { UserPreferencesService } from './user-preferences.service';
 
-export function getMetaRedcuers(userPreferencesService: UserPreferencesService) {
-  return [userPrefernceMetaReducer(userPreferencesService)];
+export function getMetaRedcuers(userPreferencesService: UserPreferencesService,
+  keys: string[]) {
+  return [userPrefernceMetaReducer(userPreferencesService, keys)];
 }
+
+export const UserPreferencesKeys = new InjectionToken<string[]>('User preferencses keys');
 
 
 @NgModule({
@@ -57,7 +60,11 @@ export function getMetaRedcuers(userPreferencesService: UserPreferencesService) 
     {
       provide: META_REDUCERS,
       useFactory: getMetaRedcuers,
-      deps: [UserPreferencesService],
+      deps: [UserPreferencesService, UserPreferencesKeys],
+    },
+    {
+      provide: UserPreferencesKeys,
+      useValue: ['app.shoppingCart']
     }
   ],
   bootstrap: [AppComponent]
