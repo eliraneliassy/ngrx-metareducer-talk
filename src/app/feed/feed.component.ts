@@ -26,7 +26,7 @@ export class FeedComponent implements OnInit {
 
   onAddToCart(item: Item) {
     this.store.dispatch(new fromApp.AddToCart(item));
-    this.snackBar.open('Added to cart', null, { duration: 1000 });
+    this.snackBar.open('Added to cart', null, { duration: 500 });
   }
 
 }
