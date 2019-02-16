@@ -20,6 +20,7 @@ import { CartComponent } from './cart/cart.component';
 import { FeedComponent } from './feed/feed.component';
 import { environment } from 'src/environments/environment';
 import { logMetaReducer } from './store/log.metareducer';
+import { userPrefernceMetaReducer } from './store/user-preferences.metareducer';
 
 
 
@@ -33,7 +34,7 @@ import { logMetaReducer } from './store/log.metareducer';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers: [logMetaReducer] }),
+    StoreModule.forRoot(reducers, { metaReducers: [logMetaReducer, userPrefernceMetaReducer] }),
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
