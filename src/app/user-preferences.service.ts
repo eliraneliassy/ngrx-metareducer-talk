@@ -14,6 +14,6 @@ export class UserPreferencesService {
   }
 
   getState() {
-    JSON.parse(localStorage.getItem(this.STATE_KEY) || '{}');
+    return JSON.parse(localStorage.getItem(this.STATE_KEY) || '{}');
   }
 }

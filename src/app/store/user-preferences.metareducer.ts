@@ -4,15 +4,16 @@ import { ActionReducer } from '@ngrx/store';
 import { State } from '../reducers';
 import { merge, pick } from 'lodash/fp';
 export function userPrefernceMetaReducer(userPreferencesService: UserPreferencesService) {
+
     return function (reducer: ActionReducer<State, AppActions>):
         ActionReducer<State, AppActions> {
-        const keys = ['app.shoppingCart'];
-        let firstRun = true;
-
         return function (state, action) {
+
+            const keys = ['app.shoppingCart'];
+            let firstRun = true;
             let nextState = reducer(state, action);
             if (firstRun) {
-                firstRun = true;
+                firstRun = false;
                 const stateFromStorage = userPreferencesService.getState();
                 nextState = merge(stateFromStorage, nextState);
             }
