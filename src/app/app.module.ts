@@ -5,7 +5,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, META_REDUCERS } from '@ngrx/store';
 import { reducers, metaReducers } from './reducers';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -21,7 +21,11 @@ import { FeedComponent } from './feed/feed.component';
 import { environment } from 'src/environments/environment';
 import { logMetaReducer } from './store/log.metareducer';
 import { userPrefernceMetaReducer } from './store/user-preferences.metareducer';
+import { UserPreferencesService } from './user-preferences.service';
 
+export function getMetaRedcuers(userPreferencesService: UserPreferencesService) {
+  return [userPrefernceMetaReducer(userPreferencesService)];
+}
 
 
 @NgModule({
@@ -34,7 +38,7 @@ import { userPrefernceMetaReducer } from './store/user-preferences.metareducer';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers: [logMetaReducer, userPrefernceMetaReducer] }),
+    StoreModule.forRoot(reducers, { metaReducers: [logMetaReducer] }),
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
@@ -49,7 +53,13 @@ import { userPrefernceMetaReducer } from './store/user-preferences.metareducer';
     MatSnackBarModule
 
   ],
-  providers: [],
+  providers: [
+    {
+      provide: META_REDUCERS,
+      useFactory: getMetaRedcuers,
+      deps: [UserPreferencesService],
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
