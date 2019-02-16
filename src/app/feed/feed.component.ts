@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { Store, select } from '@ngrx/store';
 import { State } from '../reducers';
 import * as fromApp from '../store';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-feed',
@@ -13,7 +15,7 @@ export class FeedComponent implements OnInit {
 
   items$: Observable<Item[]>;
 
-  constructor(private store: Store<State>) { }
+  constructor(private store: Store<State>, private snackBar: MatSnackBar) { }
   ngOnInit(): void {
     this.store.dispatch(new fromApp.FetchFeed());
 
@@ -24,6 +26,7 @@ export class FeedComponent implements OnInit {
 
   onAddToCart(item: Item) {
     this.store.dispatch(new fromApp.AddToCart(item));
+    this.snackBar.open('Added to cart', null, { duration: 1000 });
   }
 
 }
