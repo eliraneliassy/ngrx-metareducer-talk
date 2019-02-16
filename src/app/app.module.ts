@@ -19,6 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CartComponent } from './cart/cart.component';
 import { FeedComponent } from './feed/feed.component';
 import { environment } from 'src/environments/environment';
+import { logMetaReducer } from './store/log.metareducer';
 
 
 
@@ -32,7 +33,7 @@ import { environment } from 'src/environments/environment';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers, { metaReducers: [logMetaReducer] }),
     EffectsModule.forRoot([AppEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25, // Retains last 25 states
